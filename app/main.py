@@ -68,6 +68,10 @@ class UserCreate(BaseModel):
     email: str
     password: str
 
+class LoginModel(BaseModel):
+    email: str
+    password: str
+
 class UserUpdate(BaseModel):
     username: str = None
     email: str = None
@@ -92,7 +96,7 @@ def register(user: UserCreate):
     return db_user
 
 @app.post("/login", response_model=UserOut)
-def login(user: UserCreate):
+def login(user: LoginModel):
     db = SessionLocal()
     db_user = db.query(User).filter(User.email == user.email, User.password == user.password).first()
     if not db_user:
